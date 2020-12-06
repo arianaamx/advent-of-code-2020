@@ -3,6 +3,7 @@ const axios = require("axios");
 // 685 is too high
 // 540 is too high
 // 538 is too high
+// Your number is 539
 
 async function makeRequest() {
   const config = {
@@ -49,6 +50,41 @@ async function makeRequest() {
     return columnStart;
   }
 
+  function findSeat(seat) {
+    //ovo mozemo staviti i u listu column i listu row? Sto se dobi time?
+    let columnStart = 0;
+    let columnEnd = 7;
+    let rowsStart = 0;
+    let rowsEnd = 127;
+
+    for (var i = 0; i < seat.length; i++) {
+      if (seat[i] === "F") {
+        rowsEnd = Math.floor((rowsEnd + rowsStart) / 2);
+      }
+      if (seat[i] === "B") {
+        rowsStart = Math.ceil((rowsEnd + rowsStart) / 2);
+      }
+      if (seat[i] === "L") {
+        columnEnd = Math.floor((columnStart + columnEnd) / 2);
+      }
+      if (seat[i] === "R") {
+        columnStart = Math.ceil((columnStart + columnEnd) / 2);
+      }
+    }
+
+    return { row: rowsStart, column: columnStart };
+  }
+
+  function findSeatOptimized(seat) {
+    let seatRow = seat.substring(0, 7);
+    let seatColumn = seat.substring(7, 10);
+
+    seatRow = seatRow.replace(/F/g, "0").replace(/B/g, "1");
+    seatColumn = seatColumn.replace(/L/g, "0").replace(/R/g, "1");
+
+    return { row: parseInt(seatRow, 2), column: parseInt(seatColumn, 2) };
+  }
+
   function missingNumber(array) {
     for (var i = 1; i < array.length; i++) {
       if (array[i] !== array[i - 1] + 1) {
@@ -60,12 +96,14 @@ async function makeRequest() {
   let highestSeatID = 0;
   let seatIDs = [];
   for (var i = 0; i < res.length; i++) {
-    let seatID = decodingRow(res[i]) * 8 + decodingColumn(res[i]);
+    let { row, column } = findSeatOptimized(res[i]);
+    let seatID = row * 8 + column;
     seatIDs.push(seatID);
     if (seatID > highestSeatID) {
       highestSeatID = seatID;
     }
   }
+
   console.log(
     "Your ID is: " +
       missingNumber(
