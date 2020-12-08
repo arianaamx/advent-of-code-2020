@@ -1,9 +1,12 @@
 # What did I learn today?
 
-## How to clone a Deeply nested array
+## How to clone a deeply nested array
 `function cloneArray(a){
   return a.map(e => Array.isArray(e) ? cloneArray(e) : e);
 };`
+
+Or in my code I had a 2D array so I cloned it with: let newMap = oldMap.map(inner => inner.slice())
+
 
 ## Todays problem
 
@@ -48,6 +51,7 @@ This is an infinite loop: with this sequence of jumps, the program will run fore
 Immediately before the program would run an instruction a second time, the value in the accumulator is 5.
 
 Run your copy of the boot code. Immediately before any instruction is executed a second time, what value is in the accumulator?
+
 ``` Your puzzle answer was 2051.```
 
 ### --- Part Two ---
