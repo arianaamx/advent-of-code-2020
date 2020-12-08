@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 // 5463 is too low
+// 35487 correct
 
 async function makeRequest() {
   const config = {
@@ -37,13 +38,6 @@ async function makeRequest() {
     return childrenMap;
   }
 
-  // Make a Map() out of the input
-  let resMap = new Map();
-  for (var i = 0; i < res.length; i++) {
-    res[i] = res[i].split(" bags contain ");
-    resMap.set(res[i][0], parseChildren(res[i][1].trim()));
-  }
-
   // Find how many bags does it contains
   function mapChildrenBags(children) {
     let suma = 0;
@@ -52,6 +46,13 @@ async function makeRequest() {
     });
 
     return suma;
+  }
+
+  // Make a Map() out of the input
+  let resMap = new Map();
+  for (var i = 0; i < res.length; i++) {
+    res[i] = res[i].split(" bags contain ");
+    resMap.set(res[i][0], parseChildren(res[i][1].trim()));
   }
 
   console.log(mapChildrenBags("shiny gold"));
