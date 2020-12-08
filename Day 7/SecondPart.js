@@ -18,28 +18,43 @@ async function makeRequest() {
 
   res = res.split("\n");
 
+  function parseChildren(children) {
+    if (children === "no other bags.") {
+      return new Map();
+    }
+    let childrenMap = new Map();
+    let bags = children
+      .replace(/ bags./g, "")
+      .replace(/ bag./g, "")
+      .replace(/bags, /g, "")
+      .replace(/bag, /g, "")
+      .split(" ");
+
+    for (var i = 0; i < bags.length; i = i + 3) {
+      childrenMap.set(bags[i + 1] + " " + bags[i + 2], parseInt(bags[i]));
+    }
+
+    return childrenMap;
+  }
+
   // Make a Map() out of the input
   let resMap = new Map();
   for (var i = 0; i < res.length; i++) {
     res[i] = res[i].split(" bags contain ");
-    resMap.set(res[i][0], res[i][1]);
+    resMap.set(res[i][0], parseChildren(res[i][1].trim()));
   }
 
   // Find how many bags does it contains
   function mapChildrenBags(children) {
-    let bags = children.split(" ");
-    let sum = 0;
-    bags.forEach((element) => {
-      if (!isNaN(element)) {
-        sum += parseInt(element);
-      }
-      if (isNaN(element) && !element.includes("bag")) {
-      }
+    let suma = 0;
+    resMap.get(children).forEach((values, keys) => {
+      suma += mapChildrenBags(keys) * values + values;
     });
-    console.log(sum);
+
+    return suma;
   }
 
-  mapChildrenBags(resMap.get("shiny gold"));
+  console.log(mapChildrenBags("shiny gold"));
 }
 
 makeRequest();
