@@ -18,30 +18,27 @@ async function makeRequest() {
   };
 
   let res = await axios(config);
-  res = res.data.trim();
-
-  res = res.split("\n");
-
-  res = res.map((element) => (element = parseInt(element)));
+  res = res.data
+    .trim()
+    .split("\n")
+    .map((element) => (element = parseInt(element)));
 
   let twoSum = (arr, sum) => {
     let sume = [];
-    let hasSum = false;
     for (let i = 0; i < arr.length; i++) {
       for (let j = i + 1; j < arr.length; j++) {
         if (sum === arr[i] + arr[j]) {
-          hasSum = true;
           sume.push([arr[i], arr[j]]);
+          return true;
         }
       }
     }
-    return hasSum;
+    return false;
   };
 
   let position = 0;
   for (var i = 25; i < res.length; i++) {
     let newArray = res.slice(position, i);
-    console.log(newArray);
     if (!twoSum(newArray, res[i])) {
       console.log("This number doesn't have sum: ", res[i]);
       break;

@@ -14,25 +14,15 @@ async function makeRequest() {
   };
 
   let res = await axios(config);
-  res = res.data.trim();
-
-  res = res.split("\n");
-
-  res = res.map((element) => (element = parseInt(element)));
+  res = res.data
+    .trim()
+    .split("\n")
+    .map((element) => (element = parseInt(element)));
 
   let invalidNumber = 70639851;
   let positionOfInvalidNumber = 561;
 
   let newRes = res.slice(0, positionOfInvalidNumber + 1);
-
-  //   function isSumgreater(arr, num) {
-  //     let sum = arr.reduce((pv, cv) => pv + cv, 0);
-  //     if (sum > num) {
-  //       arr.shift();
-  //       isSumgreater(arr, num);
-  //     }
-  //     return { arr, sum };
-  //   }
 
   let sumArray = [];
   let sum = 0;
