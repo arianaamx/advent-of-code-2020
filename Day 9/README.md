@@ -15,7 +15,9 @@ The reducer function takes four arguments: accumulator, current value, current i
 - Accumulator accumulatres callback's return values
 
 With reduce you can even flatten an array of arrays!
+
 `let flattened = [[0,1], [2,3], [4,5]].reduce((accumulator, currentValue) => accumulator.concat(currentValue), [])`
+
 Where Array.prototype.concat() is used. This kind of methos is used to merge two or more arrays. It does not change the existing arrays, but instead returns a new array.
 
 ## Find min and max in Array
